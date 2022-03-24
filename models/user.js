@@ -21,7 +21,7 @@ class User extends Model {
   static get relationMappings() {
     const Role = require("./role");
     return {
-      Role: {
+      role: {
         relation: Model.HasOneRelation,
         modelClass: Role,
         join: {

@@ -48,14 +48,18 @@ class ProductDAO {
     let batch = batchSize || 2;
 
     const result = await Product.query()
+      .select("product.*", "category.name as categoryName")
+      .joinRelated("category")
       .where((builder) =>
         builder
-          .where("name", "like", `%${search}%`)
-          .orWhere("description", "like", `%${search}%`)
+          .where("product.name", "like", `%${search}%`)
+          .orWhere("product.description", "like", `%${search}%`)
+          .orWhere("category.name", "like", `%${search}%`)
       )
-      .where("status", "PUBLISHED")
-      .andWhere("quantity", ">", 0)
+      .where("product.status", "PUBLISHED")
+      .andWhere("product.quantity", ">", 0)
       .page(page, batch);
+
     return result;
   }
 }
